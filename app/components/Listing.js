@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Item from './Product_listing';
+import Item from './Item';
 import ProductDetails from './ProductDetails';
+import { Link } from 'react-router-dom';
 
 class Listing extends React.Component {
   constructor(){
@@ -39,7 +40,7 @@ class Listing extends React.Component {
 
   render() {
     let products = this.state.products;
-    const productsHtml = products.length!=0 && products.filter((details, index)=> 
+    const productsHtml = products.length!=0 && products.filter((details, index) => 
       { // check for same product with different specs
         if(details.name.split("(")[0] == (products[index+1] && products[index+1].name.split("(")[0])){
           return false;
@@ -49,12 +50,14 @@ class Listing extends React.Component {
         }
       }
     ).map( (details) => {
-      return <Item 
-          key={details._id} 
-          name={details.name} 
-          image={details.images[0]} 
-          price={details.sale_price} >
-        </Item>
+      return <Link to={`/id/${details._id}`} key={details._id} >
+          <Item 
+            key={details._id} 
+            name={details.name} 
+            image={details.images[0]} 
+            price={details.sale_price}>
+          </Item>
+        </Link>
     });
 
     // const productsHtml = <ProductDetails></ProductDetails>;

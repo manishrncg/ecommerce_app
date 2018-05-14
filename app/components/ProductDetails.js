@@ -5,11 +5,12 @@ class ProductDetails extends React.Component {
 		super();
 		this.state = {
 		  primary_Details: {},
+		  attributes: [],
 		  show_more: false
 		};
 	}
 	fetchProductList() {
-		fetch("https://assignment-appstreet.herokuapp.com/api/v1/products/5aec58965a39460004b3f6dd")
+		fetch("https://assignment-appstreet.herokuapp.com/api/v1/products/"+this.props.match.params.id)
 		.then(response => {
 			if (response.ok) {
 			  return Promise.resolve(response);
@@ -58,12 +59,19 @@ class ProductDetails extends React.Component {
 			      <p className={show}>{primary_Details.desc}</p>
 			      <p className={hideMore} onClick={e => this.revealText(e)}>+MORE</p>
 			      <hr/>
-			      <span>&#8377; {primary_Details.sale_price} 
-			      	<span className="mark_price">&#8377; {primary_Details.mark_price}</span>
+			      <span>&#8377; {primary_Details.sale_price.toFixed(2)} 
+			      	<span className="mark_price">&#8377; {primary_Details.mark_price.toFixed(2)}</span>
 			      </span>
-			      <p className="sale_price custom_blue bottomMargin">You save &#8377; {discount} ({discountPercent}%)</p>
+			      <p className="sale_price custom_blue bottomMargin">You save &#8377; {discount.toFixed(2)} ({discountPercent.toFixed(2)}%)</p>
 			      <p className="mark_price sale_price">Local taxes included (where aplicable)</p>
 			      <hr/>
+
+			      {
+			      	this.state.attributes
+			      	.map((attr)=>{
+			      		return <p>attr.name</p>;
+			      	})
+			      }
 			      
 				</div>
 			</div>
