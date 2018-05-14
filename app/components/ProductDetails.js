@@ -1,5 +1,5 @@
 import React from 'react';
-import { productDetaiingApi } from '../../config/productDetaiingApi';
+import { productDetailingApi } from '../../config/productDetailingApi';
 
 class ProductDetails extends React.Component {
 	constructor(){
@@ -13,7 +13,7 @@ class ProductDetails extends React.Component {
 		};
 	}
 	fetchProductList() {
-		fetch(productDetaiingApi+this.props.match.params.id)
+		fetch(productDetailingApi+this.props.match.params.id)
 		.then(response => {
 			if (response.ok) {
 			  return Promise.resolve(response);
