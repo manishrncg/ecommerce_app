@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Item from './Item';
 import ProductDetails from './ProductDetails';
+import { productListingApi } from '../../config/productListingApi';
 import { Link } from 'react-router-dom';
 
 class Listing extends React.Component {
@@ -13,7 +14,7 @@ class Listing extends React.Component {
   }
 
   fetchProductList() {
-    fetch("https://assignment-appstreet.herokuapp.com/api/v1/products?page="+this.props.page_number)
+    fetch(productListingApi+"page="+this.props.page_number)
       .then(response => {
         if (response.ok) {
           return Promise.resolve(response);
@@ -40,7 +41,7 @@ class Listing extends React.Component {
 
   render() {
     let products = this.state.products;
-    const productsHtml = products.length!=0 && products.filter((details, index) => 
+    const productsHtml = products.length && products.filter((details, index) => 
       { // check for same product with different specs
         if(details.name.split("(")[0] == (products[index+1] && products[index+1].name.split("(")[0])){
           return false;

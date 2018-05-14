@@ -17,6 +17,7 @@ module.exports = {
 			}
 		]
 	},
+	devtool: 'source-map',
 	output: {
 		filename: 'transformed.js',
 		path: __dirname + '/build'
