@@ -1,20 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Item from './Item';
-import ProductDetails from './ProductDetails';
 import { productListingApi } from '../../config/productListingApi';
 import { Link } from 'react-router-dom';
 
 class Listing extends React.Component {
   constructor(){
     super();
+    this.loadItems = this.loadItems.bind(this);
     this.state = {
-      products: []
+      products: [],
+      page_number: 1
     };
   }
 
-  fetchProductList() {
-    fetch(productListingApi+"page="+this.props.page_number)
+  loadItems(next){
+    let page_number;
+    if(next){
+      page_number = Number(this.state.page_number)+1;      
+    }
+    else{
+      page_number = this.state.page_number;
+    }
+
+    fetch(productListingApi+"page="+page_number)
       .then(response => {
         if (response.ok) {
           return Promise.resolve(response);
@@ -25,24 +34,27 @@ class Listing extends React.Component {
       })
       .then(response => response.json()) // parse response as JSON
       .then(data => {
+        const prevData = this.state.products;
         this.setState({
-          products: data.products
+          products: [...prevData, ...data.products],
+          page_number: page_number
         });
       })
       .catch(function(error) {
         console.log(`Error: ${error.message}`);
       });
   }
+
   // fetch data from api
   // if doing SSR move it to from here
   componentWillMount(){
-    this.fetchProductList();
+    this.loadItems(false);
   }
 
   render() {
     let products = this.state.products;
     const productsHtml = products.length && products.filter((details, index) => 
-      { // check for same product with different specs
+      { // check for same product with different specs/variants
         if(details.name.split("(")[0] == (products[index+1] && products[index+1].name.split("(")[0])){
           return false;
         }
@@ -51,19 +63,20 @@ class Listing extends React.Component {
         }
       }
     ).map( (details) => {
-      return <Link to={`/id/${details._id}`} key={details._id} >
-          <Item 
-            key={details._id} 
-            name={details.name} 
-            image={details.images[0]} 
-            price={details.sale_price}>
-          </Item>
-        </Link>
+      return <React.Fragment key={details._id}>
+        <Link to={`/id/${details._id}`} key={details._id} >
+            <Item 
+              key={details._id} 
+              name={details.name} 
+              image={details.images[0]} 
+              price={details.sale_price}>
+            </Item>
+          </Link>
+          
+        </React.Fragment>
     });
-
-    // const productsHtml = <ProductDetails></ProductDetails>;
     
-    return (<React.Fragment> {productsHtml} </React.Fragment>)
+    return (<React.Fragment> {productsHtml}<button onClick={(e)=>this.loadItems(e)}>Load more</button> </React.Fragment>)
   }
 }
 
