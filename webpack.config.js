@@ -8,6 +8,9 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
 	entry: __dirname + '/app/index.js',
+	devServer: {
+    	historyApiFallback: true,
+  	},
 	module: {
 		loaders: [
 			{
@@ -20,7 +23,8 @@ module.exports = {
 	devtool: 'source-map',
 	output: {
 		filename: 'transformed.js',
-		path: __dirname + '/build'
+		path: __dirname + '/build',
+		publicPath: '/'
 	},
 	plugins: [HTMLWebpackPluginConfig]
 };

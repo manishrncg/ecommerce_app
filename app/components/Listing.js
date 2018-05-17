@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Item from './Item';
+import Header from './Header';
 import { productListingApi } from '../../config/productListingApi';
-import { Link } from 'react-router-dom';
 
 class Listing extends React.Component {
   constructor(){
@@ -12,6 +12,12 @@ class Listing extends React.Component {
       products: [],
       page_number: 1
     };
+  }
+
+  // fetch data from api
+  // if doing SSR move it to from here
+  componentWillMount(){
+    this.loadItems(false);
   }
 
   loadItems(next){
@@ -45,38 +51,47 @@ class Listing extends React.Component {
       });
   }
 
-  // fetch data from api
-  // if doing SSR move it to from here
-  componentWillMount(){
-    this.loadItems(false);
-  }
-
   render() {
-    let products = this.state.products;
-    const productsHtml = products.length && products.filter((details, index) => 
-      { // check for same product with different specs/variants
-        if(details.name.split("(")[0] == (products[index+1] && products[index+1].name.split("(")[0])){
-          return false;
+    let indexOfFilter = 0;
+    const products = this.state.products;
+    const  productsHtml = products instanceof Array && products.length && products
+      .filter((details, index) => { // check for same product with different specs/variants
+          if(details.name.split("(")[0] == (products[index+1] && products[index+1].name.split("(")[0])){
+            return false;
+          }
+          else{
+            indexOfFilter++;
+            return true;
+          }
         }
-        else{
-          return true;
-        }
-      }
-    ).map( (details) => {
-      return <React.Fragment key={details._id}>
-        <Link to={`/id/${details._id}`} key={details._id} >
-            <Item 
-              key={details._id} 
-              name={details.name} 
-              image={details.images[0]} 
-              price={details.sale_price}>
-            </Item>
-          </Link>
-          
-        </React.Fragment>
-    });
+      )
+      .map( (details, index) => {
+        return <React.Fragment key={details._id}>
+              { index==0 || !(index%2) ? <div className="col-md-3 col-sm-3 col-xs-3"></div> : ''}
+              <Item 
+                key={details._id}
+                id={details._id}
+                name={details.name} 
+                image={details.images[0]} 
+                price={details.sale_price}>
+              </Item>
+              {!( (index+1)%2) ? <div className="col-md-3 col-sm-3 col-xs-3"></div> : ''}
+          </React.Fragment>
+      });
     
-    return (<React.Fragment> {productsHtml}<button onClick={(e)=>this.loadItems(e)}>Load more</button> </React.Fragment>)
+    return (<React.Fragment> 
+              <Header getBagData={this.props.getBagData} />
+              
+              <div className="row">
+                
+                {productsHtml}
+              </div>
+              <div className="row">
+                <div className="col-md-3 col-sm-3 col-xs-3 offset-md-5 offset-sm-5 offset-xs-5 ">
+                  <button onClick={(e)=>this.loadItems(e)}>Load more</button>
+                </div> 
+              </div>
+            </React.Fragment>)
   }
 }
 

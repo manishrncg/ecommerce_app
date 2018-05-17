@@ -1,44 +1,71 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Listing from './components/Listing';
+import Bag from './components/Bag';
 import ProductDetails from './components/ProductDetails';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NotFound from './components/NotFound';
+
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends React.Component {
 	constructor(){
 		super();
-		this.addToCart = this.addToCart.bind(this);
-		this.getCartData = this.getCartData.bind(this);
-		this.state = {
-			cart: {}
-		};
+		this.addToBag = this.addToBag.bind(this);
+		this.getBagData = this.getBagData.bind(this);
+		this.cart = {};
 	}
 
-	getCartData(id){
+	
+
+	getBagData(id){
 		if(id){
-			return this.state.cart[id];
+			return this.cart[id];
 		}
 		else{
-			return cart;
+			return this.cart;
 		}
 	}
 
-	addToCart(id, quantity){
-		const cart = Object.assign( {}, this.state.cart );
+	addToBag(id, quantity){
+		const cart = Object.assign( {}, this.cart );
 		cart[id] = ( cart[id] ? cart[id] + quantity : quantity );
 		alert('Product added to cart!');
-		this.setState({
+		/* this.setState({
 			cart: cart
-		});
+		}); */
+		this.cart = cart;
 	}
 
 	render(){
 		return (
 		  <BrowserRouter>
 			   <Switch>
-			    <Route exact path='/' component={()=> <Listing page_number="1" />}/>
-			    <Route path='/id/:id' render={(props)=> <ProductDetails {...props} addToCart={this.addToCart} />} />
+			    <Route 
+			    	exact path='/' 
+			    	component={ ()=> <Listing 
+			    						page_number="1" 
+			    						getBagData={this.getBagData} 
+			    					/>
+			    				}
+			    />
+			            
+			    <Route 
+			    	path='/id/:id' 
+			    	component={ (props)=> <ProductDetails 
+				    						{...props} 
+				    						addToBag={this.addToBag} 
+				    						getBagData={this.getBagData} 
+			    						/>
+			    			}
+			    />
+			    <Route 
+			    	path='/bag' 
+			    	render={ (props)=> <Bag 
+				    						{...props} 
+				    						getBagData={this.getBagData} 
+			    						/>
+			    			}
+			    />
 			  </Switch>
 		  </BrowserRouter>);
 	}
