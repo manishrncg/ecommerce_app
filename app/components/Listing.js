@@ -80,7 +80,7 @@ class Listing extends React.Component {
       });
     
     return (<React.Fragment> 
-              <Header getBagData={this.props.getBagData} />
+              <Header getBagData={this.props.getBagData} bagQuantity={this.props.bagQuantity} />
               
               <div className="row">
                 

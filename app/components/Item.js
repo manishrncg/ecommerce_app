@@ -5,7 +5,7 @@ class Item extends React.Component {
   render() {  // Basic component for every product being displayed while listing
     const {name, image, price, id} = this.props;
   
-    return (<div className="col-md-3 col-sm-3 col-xs-3 inline productBox" >
+    return (<div className="col-md-3 col-sm-3 col-xs-3 productBox" >
 		    	<Link to={`/id/${id}`} >
 		          <img src={image} alt={name} className="productListImage" />
 		          <p>{name}</p>

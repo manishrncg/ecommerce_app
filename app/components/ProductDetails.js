@@ -44,8 +44,6 @@ class ProductDetails extends React.Component {
 		})
 		.then(response => response.json()) // parse response as JSON
 		.then(data => {
-			console.log(data);
-			debugger;
 			this.primary_Details = data.primary_product;
 			this.attributes = data.attributes;
 			this.options = data.options;
@@ -215,7 +213,6 @@ class ProductDetails extends React.Component {
 			options,
 			attributes
 		} = this;
-		debugger;
 	  	const show = show_more ? "" : "pDesc";
 	  	const hideMore = !show_more ? "more_desc custom_blue" : "hide";
 	  	const discount = parseFloat(primary_Details.mark_price) - parseFloat(primary_Details.sale_price);
@@ -228,7 +225,7 @@ class ProductDetails extends React.Component {
 
 		    return (
 				<React.Fragment>
-					<Header totalCartQuantity={this.state.totalCartQuantity} />
+					<Header totalCartQuantity={this.state.totalCartQuantity} getBagData={this.props.getBagData} />
 					<div className="col-md-8 col-sm-8 col-xs-8  offset-md-2 offset-sm-2 offset-xs-2 productMarginTop" >
 						<div className="row">
 							<div className="col-md-6 col-sm-6 col-xs-6" >
@@ -254,7 +251,7 @@ class ProductDetails extends React.Component {
 								<hr/>
 								{optionsVar}
 								<h6>Quantity</h6>
-								<div className="col-md-3 border4Box">
+								<div className="col-md-2 col-sm-12 col-xs-12 border4Box">
 									<span className="cursorPointer plusminus" onClick={this.decrementQuantity}>
 										&#x2796;
 									</span>
@@ -265,7 +262,8 @@ class ProductDetails extends React.Component {
 										&#x2795;
 									</span>
 								</div>
-								<div className="col-md-12 cartButtonDiv">
+								<div className="col-md-10 col-sm-12 col-xs-12"></div>
+								<div className="col-md-12 col-sm-12 col-xs-12 cartButtonDiv">
 									<button 
 										className="cartButton cursorPointer"
 										onClick={ () => this.addAndUpdateBag(selectedProduct, this.state.selectedQuantity)}

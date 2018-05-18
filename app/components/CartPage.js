@@ -2,9 +2,10 @@ import React from 'react';
 import Header from './Header';
 import { productDetailingApi } from '../../config/productDetailingApi';
 
-class Bag extends React.Component{
-	constructor(){
-		super();
+class CartPage extends React.Component{
+	constructor(props){
+		super(props);
+		this.getBag = this.props.getBagData();
 		this.state = {
 		  primary_Details: {},
 		  currentImage: '',
@@ -13,11 +14,10 @@ class Bag extends React.Component{
 	}
 
 	componentWillMount(){
-  		/* const getBag = this.props.getBagData();
-		Object.keys(getBag)
+		Object.keys(this.getBag)
 				.map((id, index)=>{
 					return this.state.id ? '' : this.fetchProductDetail(id);
-				}); */
+				});
 
   	}
 
@@ -37,7 +37,6 @@ class Bag extends React.Component{
 		})
       .then(response => response.json()) // parse response as JSON
       .then(data => {
-      	console.log(data);
       	addPrimaryDetails = Object.assign({}, this.state.primary_Details);
       	product_variations = [...data.product_variations, ...this.state.product_variations];
       	addPrimaryDetails[prodID] = data.primary_product;
@@ -85,7 +84,9 @@ class Bag extends React.Component{
 
 	render(){
 		const addPrimaryDetails = this.state.primary_Details;
-		const renderBagDetails = this.renderBagDetails(addPrimaryDetails);
+		const renderBagDetails = Object.keys(this.getBag).length == 0
+									? <h3 className="alignCenter">Your Bag is empty!</h3>
+									: this.renderBagDetails(addPrimaryDetails);
 		return (<React.Fragment>
 					<Header getBagData={this.props.getBagData} />
 					<h1 className="text-center productMarginTop">Your Bag</h1>
@@ -98,4 +99,4 @@ class Bag extends React.Component{
 	}
 }
 
-export default Bag;
+export default CartPage;

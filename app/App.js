@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Listing from './components/Listing';
-import Bag from './components/Bag';
+import CartPage from './components/CartPage';
 import ProductDetails from './components/ProductDetails';
 import NotFound from './components/NotFound';
 
@@ -60,7 +60,7 @@ class App extends React.Component {
 			    />
 			    <Route 
 			    	path='/bag' 
-			    	render={ (props)=> <Bag 
+			    	render={ (props)=> <CartPage 
 				    						{...props} 
 				    						getBagData={this.getBagData} 
 			    						/>

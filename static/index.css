@@ -23,7 +23,7 @@
 }
 
 .plusminus{
-	padding: 6px;
+	padding: 3.5px;
 }
 
 .productBox {
@@ -80,6 +80,7 @@
 .qty{
 	background: #2eada2;
 	color: #fff;
+	padding: 4px;
 }
 
 .cartButton{
@@ -107,6 +108,11 @@
 
 .bagMarginBottom{
 	margin-bottom: 1%;
+}
+
+.alignCenter{
+	margin: 0 auto;
+	top: 50px;
 }
 
 
