@@ -11,11 +11,11 @@ Steps for installation:
 
 File structure:
 
-  Homepage 				- App.js
-  Header				- .components/Header.js
-  Product listing page	- .components/Listing.js
-  Listing items			- .components/Item.js
-  Product Detail page	- .components/ProductDetails.js
-  Cart/Bag				- .components/CartPage.js
+  Homepage 				      - App.js, 
+  Header				        - .components/Header.js, 
+  Product listing page	- .components/Listing.js, 
+  Listing items			    - .components/Item.js, 
+  Product Detail page	  - .components/ProductDetails.js, 
+  Cart/Bag				      - .components/CartPage.js
 
   I hope you like it.
