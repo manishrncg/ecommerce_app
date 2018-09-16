@@ -1,4 +1,4 @@
-# Ecommerce-app-React-js
+# Ecommerce client app using React-js
 
 NOTE: Please install node and npm before proceeding
 
